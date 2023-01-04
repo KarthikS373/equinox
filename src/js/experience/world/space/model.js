@@ -37,7 +37,8 @@ class Model {
       this.mesh.rotation.y += delta * 0.0001
       this.mesh.rotation.x += Math.sin(delta * 0.0005)
 
-      this.mesh.position.x = Math.sin(delta * 0.0005)
+      this.mesh.position.x = Math.tan(delta * 0.001)
+      this.mesh.position.x = Math.cos(delta * 0.001) * 3
       this.mesh.position.z = Math.sin(delta * 0.0005) * 2
     }
   }

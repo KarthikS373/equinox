@@ -1,4 +1,5 @@
 import Camera from "./environment/Camera"
+import Controls from "./environment/Controls"
 import Light from "./environment/Light"
 import Loader from "./environment/Loader"
 import Renderer from "./environment/Renderer"
@@ -36,6 +37,8 @@ class Experience {
     this.scene.add(this.light.ambient)
     this.scene.add(this.world.container)
 
+    if (window.location.hash === "#controls") this.controls = new Controls()
+
     // Events
     this.time.on("update", (args) => {
       this.update(args.elapsed, args.delta)
@@ -55,6 +58,8 @@ class Experience {
     this.camera.update()
     this.renderer.update()
     this.world.model.update(delta)
+
+    if (this.controls) this.controls.update()
   }
 
   resize() {
