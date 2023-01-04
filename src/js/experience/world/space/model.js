@@ -7,8 +7,6 @@ class Model {
   constructor() {
     this.components = new Experience()
     this.scene = this.components.scene
-
-    this.loadModel()
   }
 
   loadModel() {
@@ -16,9 +14,8 @@ class Model {
       this.gltf = gltf
 
       this.mesh = this.gltf.scene
-      this.mesh.scale.set(3, 3, 3)
+      this.mesh.scale.set(4, 4, 4)
 
-      console.log(this.gltf.animations)
       this.scene.add(this.mesh)
 
       this.setAnimations()
@@ -30,14 +27,19 @@ class Model {
     this.clips = this.gltf.animations
 
     const action = this.mixer.clipAction(this.gltf.animations[0])
-    console.log(action)
     action.play()
   }
 
   update(delta) {
     if (this.mixer) this.mixer.update(delta * 0.001)
 
-    if (this.mesh) this.mesh.rotation.y += delta * 0.0001
+    if (this.mesh) {
+      this.mesh.rotation.y += delta * 0.0001
+      this.mesh.rotation.x += Math.sin(delta * 0.0005)
+
+      this.mesh.position.x = Math.sin(delta * 0.0005)
+      this.mesh.position.z = Math.sin(delta * 0.0005) * 2
+    }
   }
 }
 
