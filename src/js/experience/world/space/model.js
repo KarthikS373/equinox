@@ -7,6 +7,7 @@ class Model {
   constructor() {
     this.components = new Experience()
     this.scene = this.components.scene
+    this.sizes = this.components.sizes
   }
 
   loadModel() {
@@ -28,6 +29,8 @@ class Model {
 
     const action = this.mixer.clipAction(this.gltf.animations[0])
     action.play()
+
+    this.initParallax()
   }
 
   update(delta) {
@@ -37,10 +40,15 @@ class Model {
       this.mesh.rotation.y += delta * 0.0001
       this.mesh.rotation.x += Math.sin(delta * 0.0005)
 
-      this.mesh.position.x = Math.tan(delta * 0.001)
-      this.mesh.position.x = Math.cos(delta * 0.001) * 3
-      this.mesh.position.z = Math.sin(delta * 0.0005) * 2
+      this.mesh.position.z = Math.sin(delta * 0.005) + Math.cos(delta * 0.0003)
     }
+  }
+
+  initParallax() {
+    window.addEventListener("mousemove", (e) => {
+      this.mesh.position.x = (e.clientX / this.sizes.width) * 1.5
+      this.mesh.position.y = (e.clientY / this.sizes.height) * 1.5
+    })
   }
 }
 
