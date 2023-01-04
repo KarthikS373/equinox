@@ -1,0 +1,19 @@
+{
+  "short_name": "Equinox",
+  "name": "Annual Techno-Cultural fest of IIIT Lucknow",
+  "icons": [
+    {
+      "src": "/equinox-logo.png",
+      "type": "image/png",
+      "sizes": "612x408"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "",
+  "display": "standalone",
+  "scope": "/",
+  "theme_color": "",
+  "shortcuts": [],
+  "description": "Equinox 2023 is the Annual techno-cultural fest of Indian Institute of Information Technology, Lucknow",
+  "screenshots": []
+}
