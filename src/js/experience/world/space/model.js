@@ -1,4 +1,5 @@
 import * as THREE from "three"
+import gsap from "gsap"
 
 import Experience from "../.."
 import SpaceModel from "../../../../assets/models/space.glb"
@@ -31,13 +32,45 @@ class Model {
     this.clips = this.gltf.animations
 
     this.action = this.mixer.clipAction(this.gltf.animations[0])
-    this.animate()
+
+    this.waveClip = THREE.AnimationUtils.subclip(this.gltf.animations[0], "wave", 0, 8, 2)
+    this.technicalClip = THREE.AnimationUtils.subclip(this.gltf.animations[0], "technical", 9, 28, 2)
+    this.culturalClip = THREE.AnimationUtils.subclip(this.gltf.animations[0], "culturalClip", 29, 50, 2)
+
+    this.animate("wave")
 
     this.initParallax()
   }
 
-  animate() {
-    if (this.action) this.action.play()
+  animate(animation = "wave") {
+    if (!this.action && !this.waveClip && !this.culturalClip && !this.technicalClip) {
+      console.log("Animations not ready")
+      return
+    }
+
+    this.action.stop()
+
+    switch (animation) {
+      case "wave":
+        this.action = this.mixer.clipAction(this.waveClip)
+        break
+      case "technical":
+        this.action = this.mixer.clipAction(this.technicalClip)
+        break
+      case "cultural":
+        this.action = this.mixer.clipAction(this.culturalClip)
+        break
+
+      default:
+        this.action = this.mixer.clipAction(this.waveClip)
+    }
+
+    // this.action.fadeOut(600)
+    // this.action.setEffectiveTimeScale(1)
+    // this.action.setEffectiveWeight(1)
+    // this.action.fadeIn(600)
+    this.action.setLoop(THREE.LoopPingPong)
+    this.action.play()
   }
 
   update(delta) {
@@ -50,12 +83,23 @@ class Model {
     }
   }
 
+  spin() {
+    gsap.fromTo(this.mesh.rotation, { y: this.mesh.rotation.y }, { y: this.mesh.rotation.y + Math.PI * 2, duration: 3 })
+    
+    const { x, y, z } = this.mesh.scale
+    gsap.fromTo(this.mesh.scale, { x: x }, { x: x + 1, duration: 1.5 })
+    gsap.fromTo(this.mesh.scale, { y: y }, { y: y + 1, duration: 1.5 })
+    gsap.fromTo(this.mesh.scale, { z: z }, { z: z + 1, duration: 1.5 })
+
+    gsap.fromTo(this.mesh.scale, { x: x + 1 }, { x: x, duration: 1.5, delay: 1.5 })
+    gsap.fromTo(this.mesh.scale, { y: y + 1 }, { y: y, duration: 1.5, delay: 1.5 })
+    gsap.fromTo(this.mesh.scale, { z: z + 1 }, { z: z, duration: 1.5, delay: 1.5 })
+  }
+
   initParallax() {
     window.addEventListener("mousemove", (e) => {
-      this.mesh.position.x += (e.clientX / this.sizes.width - 0.5) * 0.1
-      this.mesh.position.y += (e.clientY / this.sizes.height - 0.5) * 0.1
-
-      console.log(e.clientX / this.sizes.width)
+      this.mesh.position.x = (e.clientX / this.sizes.width - 0.5) * 2
+      this.mesh.position.z = (e.clientY / this.sizes.height - 0.5) * 2
     })
   }
 }

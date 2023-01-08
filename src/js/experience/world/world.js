@@ -1,21 +1,25 @@
 import * as THREE from "three"
 
 import Experience from ".."
+import Particles from "./particles/particle"
 import Model from "./space/model"
 
 class World {
   constructor() {
     this.components = new Experience()
 
-    this.container = new THREE.Object3D()
-    this.container.matrixAutoUpdate = false
-
     this.initScene()
+    this.initParticles()
   }
 
   initScene() {
     this.model = new Model()
     this.model.loadModel()
+  }
+
+  initParticles() {
+    this.particles = new Particles()
+    this.particles.initParticles()
   }
 }
 

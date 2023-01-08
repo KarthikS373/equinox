@@ -65,7 +65,7 @@ class Experience {
   resize() {
     this.camera.resize()
     this.renderer.resize()
-  }
+  }w
 }
 
 export default Experience
