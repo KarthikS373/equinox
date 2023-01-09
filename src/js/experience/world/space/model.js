@@ -22,7 +22,6 @@ class Model {
       this.mesh.position.y = -4
 
       this.scene.add(this.mesh)
-
       this.setAnimations()
     })
   }
@@ -84,8 +83,8 @@ class Model {
   }
 
   spin() {
-    gsap.fromTo(this.mesh.rotation, { y: this.mesh.rotation.y }, { y: this.mesh.rotation.y + Math.PI * 2, duration: 3 })
-    
+    gsap.fromTo(this.mesh.rotation, { y: Math.PI }, { y: Math.PI * 3, duration: 3 })
+
     const { x, y, z } = this.mesh.scale
     gsap.fromTo(this.mesh.scale, { x: x }, { x: x + 1, duration: 1.5 })
     gsap.fromTo(this.mesh.scale, { y: y }, { y: y + 1, duration: 1.5 })
